@@ -1,8 +1,11 @@
 import React from 'react';
-import {Button, Container, Form, FormControl, Nav, Navbar} from "react-bootstrap";
+import {Container, Form, FormControl, Nav, Navbar} from "react-bootstrap";
+import {HeaderFilterButtonStyle} from "../styles/General.styled"
 import logo from "../images/logo.ico";
 
+
 function Header(props) {
+
     const availableSearch = props.search;
     return (
         <Navbar fixed="top" collapseOnSelect expand="md" bg="dark" variant="dark">
@@ -30,7 +33,7 @@ function Header(props) {
                             placeholder="Search"
                             className="mr-sm-2"
                         />
-                        <Button variant="outline-info">Search</Button>
+                        <HeaderFilterButtonStyle variant="outline-info">Search</HeaderFilterButtonStyle>
                     </Form>
                     }
                 </Navbar.Collapse>

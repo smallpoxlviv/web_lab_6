@@ -7,12 +7,12 @@ export const ItemLiStyle = styled.li`
   list-style-type: none;
   width: 250px;
   padding: 0 0 5px 0;
+  margin: 0 auto 25px auto;
   @media (max-width: 992px) {
     width: 200px;
   }
   @media (max-width: 768px) {
     width: 80%;
-    margin: 0 auto 25px auto;
   }
 `;
 
@@ -47,5 +47,5 @@ export const ItemButtonsBlockStyle = styled.div`
 export const ItemButtonStyle = styled(Button)`
   margin: 0 5px 0 auto;
   line-height: 12px;
-  font-size: 12px;  
+  font-size: 12px;
 `;

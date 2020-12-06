@@ -9,10 +9,10 @@ function Routing() {
     return (
         <Router>
             <Switch>
-                <Route exact path="/" component={ Home }/>
-                <Route exact path="/catalog" component={ Catalog }/>
-                <Route exact path="/item" component={ Item }/>
-                <Route exact path="/cart" component={ Cart }/>
+                <Route exact path="/" component={Home}/>
+                <Route exact path="/catalog" component={Catalog}/>
+                <Route exact path="/cart" component={Cart}/>
+                <Route exact path="/item" component={Item}/>
             </Switch>
         </Router>
     );

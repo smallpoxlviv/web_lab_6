@@ -4,7 +4,6 @@ export const FooterStyle = styled.footer`
   max-width: 100%;
   height: 200px;
   background: #343a40;
-  margin: 0 auto;
   @media (max-width: 767px) {
     height: 155px;
   }

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import {Button} from "react-bootstrap";
 
 export const ContainerStyle = styled.div`
   padding: 0px 20px;
@@ -25,6 +26,20 @@ export const ContainerStyle = styled.div`
 
 export const MarginTopFromHeaderStyle = styled.div`
   padding-top: 56px;
+  flex: 1 0 auto;
 `;
+
+export const WrapperToDownFooterStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+`;
+
+export const HeaderFilterButtonStyle = styled(Button)`
+    width: 74px;
+    margin-right: 10px;
+`;
+
+
 
 
