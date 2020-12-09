@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo, useState} from 'react';
 import Header from "../components/Header";
 import {ContainerStyle, MarginTopFromHeaderStyle} from "../styles/General.styled";
 import logo from "../images/logo.ico";
@@ -17,6 +17,95 @@ import HomeItem from "../components/HomeItem";
 
 
 function Home() {
+
+    const [items, setItems] = useState([
+        {
+            id: 1,
+            img: logo,
+            title: "title",
+            itemParagraphs: ["On sait depuis longtemps que travailler avec du texte lisible et contenant du sens\n" +
+            "est source de distractions, et empêche de se concentrer sur la mise en page elle-même.",
+                "L'avantage du\nLorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une\n" +
+                "distribution de lettres plus ou moins normale, et en tout cas"]
+        },
+        {
+            id: 2,
+            img: logo,
+            title: "title",
+            itemParagraphs: ["On sait depuis longtemps que travailler avec du texte lisible et contenant du sens\n" +
+            "est source de distractions, et empêche de se concentrer sur la mise en page elle-même.",
+                "L'avantage du\nLorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une\n" +
+                "distribution de lettres plus ou moins normale, et en tout cas"]
+        },
+        {
+            id: 3,
+            img: logo,
+            title: "title",
+            itemParagraphs: ["On sait depuis longtemps que travailler avec du texte lisible et contenant du sens\n" +
+            "est source de distractions, et empêche de se concentrer sur la mise en page elle-même.",
+                "L'avantage du\nLorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une\n" +
+                "distribution de lettres plus ou moins normale, et en tout cas"]
+        },
+        {
+            id: 4,
+            img: logo,
+            title: "title",
+            itemParagraphs: ["On sait depuis longtemps que travailler avec du texte lisible et contenant du sens\n" +
+            "est source de distractions, et empêche de se concentrer sur la mise en page elle-même.",
+                "L'avantage du\nLorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une\n" +
+                "distribution de lettres plus ou moins normale, et en tout cas"]
+        },
+        {
+            id: 5,
+            img: logo,
+            title: "title",
+            itemParagraphs: ["On sait depuis longtemps que travailler avec du texte lisible et contenant du sens\n" +
+            "est source de distractions, et empêche de se concentrer sur la mise en page elle-même.",
+                "L'avantage du\nLorem Ipsum sur un texte générique comme 'Du texte. Du texte. Du texte.' est qu'il possède une\n" +
+                "distribution de lettres plus ou moins normale, et en tout cas"]
+        }
+    ]);
+
+    let [showMore, setShowMore] = useState({
+        button: false,
+        slicesNum: 1,
+        currentSliceIdx: 0
+    });
+
+    let itemsSlices = useMemo(() => {
+        let slices = [];
+        let idx = 0;
+        let slice;
+        let button = false;
+        let slicesNum = 0;
+        while (idx < items.length) {
+            slice = items.slice(idx, idx + 3);
+            slices.push(slice);
+            idx += 3;
+            slicesNum += 1;
+        }
+        if (slicesNum > 1) {
+            button = true;
+        }
+        setShowMore({...showMore, button:button, slicesNum: slicesNum});
+        return slices;
+    }, [items]);
+
+    const [itemsToShow, setItemsToShow] = useState([...itemsSlices[0]]);
+
+    const showMoreHomeItems = () => {
+        let button = true;
+        let currentSliceIdx = showMore.currentSliceIdx;
+        if (currentSliceIdx === showMore.slicesNum - 2) {
+            button = false;
+        }
+        if (currentSliceIdx < showMore.slicesNum - 1) {
+            currentSliceIdx = currentSliceIdx + 1;
+            setItemsToShow([...itemsToShow, ...itemsSlices[currentSliceIdx]]);
+        }
+        setShowMore({...showMore, button:button, currentSliceIdx: currentSliceIdx})
+    }
+
     return (
         <>
             <Header search={false}/>
@@ -45,16 +134,17 @@ function Home() {
 
                     <HomeItemsBlockStyle>
                         <HomeItemsUlStyle>
-                            <HomeItem/>
-                            <HomeItem/>
-                            <HomeItem/>
+                            {itemsToShow.map((item) => (
+                                <HomeItem key={item.id} item={item}/>
+                            ))}
                         </HomeItemsUlStyle>
                     </HomeItemsBlockStyle>
 
-                    <HomeButtonBlockStyle>
-                        <HomeButtonStyle variant="outline-info" href="/item">Show more</HomeButtonStyle>
-                    </HomeButtonBlockStyle>
-
+                    {showMore.button && (
+                        <HomeButtonBlockStyle>
+                            <HomeButtonStyle onClick={showMoreHomeItems} variant="outline-info">Show
+                                more</HomeButtonStyle>
+                        </HomeButtonBlockStyle>)}
                 </ContainerStyle>
             </MarginTopFromHeaderStyle>
         </>

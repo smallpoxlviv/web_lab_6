@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import {Button} from "react-bootstrap";
+import {Link} from "react-router-dom";
+
 
 export const ItemLiStyle = styled.li`
   border: 2px solid #A9A9A9;
@@ -48,4 +50,8 @@ export const ItemButtonStyle = styled(Button)`
   margin: 0 5px 0 auto;
   line-height: 12px;
   font-size: 12px;
+`;
+
+export const ItemButtonLinkStyle = styled(Link)`
+  margin: 0 5px 0 auto;
 `;

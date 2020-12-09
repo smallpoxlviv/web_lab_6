@@ -6,6 +6,7 @@ export const HomeItemLiStyle = styled.li`
   list-style-type: none;
   width: 300px;
   padding: 0 0 5px 0;
+  margin: 0 auto 25px auto;
   @media (max-width: 1200px) {
     width: 250px;
   }

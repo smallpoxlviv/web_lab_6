@@ -59,7 +59,6 @@ export const HomeMainTextParagraphStyle = styled.p`
 export const HomeItemsBlockStyle = styled.div`
   padding: 60px 0 10px 0;
   display: flex;
-  justify-content: space-between;
   @media (max-width: 768px) {
     padding: 0 0 10px 0;
     margin: 20px 0 0 0;
@@ -69,6 +68,7 @@ export const HomeItemsBlockStyle = styled.div`
 export const HomeItemsUlStyle = styled.ul`
   width: 100%;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   padding: 0;
   margin: 0;

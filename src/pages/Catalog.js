@@ -1,70 +1,25 @@
-import React from 'react';
+import React, {useContext, useState} from 'react';
 import Header from "../components/Header";
 import Filter from "../components/Filter";
 import ItemCard from "../components/ItemCard"
 import {ContainerStyle, MarginTopFromHeaderStyle} from "../styles/General.styled"
 import {CatalogListStyle} from "../styles/Catalog.styled"
+import {DwellingContext} from "../context/DwellingContext";
 
-import logo from "../images/logo.ico";
 
 function Catalog() {
-
-    const dwellings = [
-        {
-            img: logo,
-            title: "title",
-            area: 145,
-            price: 123,
-            location: "location",
-            floors: 0,
-            pool: false
-        },
-        {
-            img: logo,
-            title: "title",
-            area: 145,
-            price: 123,
-            location: "location",
-            floors: 0,
-            pool: true
-        },
-        {
-            img: logo,
-            title: "title",
-            area: 145,
-            price: 123,
-            location: "location",
-            floors: 2,
-            pool: true
-        },
-        {
-            img: logo,
-            title: "title",
-            area: 145,
-            price: 123,
-            location: "location",
-            floors: 1,
-            pool: true
-        },
-        {
-            img: logo,
-            title: "title",
-            area: 145,
-            price: 123,
-            location: "location",
-            floors: 2,
-            pool: false
-        }]
+    const dwellings = useContext(DwellingContext);
+    const [dwellingsToShow, setDwellingsToShow] = useState([...dwellings]);
 
     return (
         <>
-            <Header search={true}/>
+            <Header search={true} dwellings={dwellings} setDwellingsToShow={setDwellingsToShow}/>
             <MarginTopFromHeaderStyle>
-                <Filter/>
+                <Filter dwellings={dwellings} setDwellingsToShow={setDwellingsToShow}/>
                 <ContainerStyle>
                     <CatalogListStyle>
-                        {dwellings.map((item, index) => (
-                            <ItemCard key={index} item={item}/>
+                        {dwellingsToShow.map((item) => (
+                            <ItemCard key={item.id} item={item}/>
                         ))}
                     </CatalogListStyle>
                 </ContainerStyle>

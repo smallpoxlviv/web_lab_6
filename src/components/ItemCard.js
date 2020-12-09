@@ -1,15 +1,16 @@
 import React from 'react';
 import {
     ItemLiStyle, ItemImgWrapStyle, ItemTitleStyle,
-    ItemParagraphStyle, ItemButtonsBlockStyle, ItemImgStyle, ItemButtonStyle
+    ItemParagraphStyle, ItemButtonsBlockStyle, ItemImgStyle, ItemButtonStyle, ItemButtonLinkStyle
 } from "../styles/ItemCard.styled"
+import {Link} from "react-router-dom";
 
 function ItemCard({item}) {
     let floorParagraph;
     if (item.floors === 1) {
         floorParagraph = <ItemParagraphStyle>Has 1 floor</ItemParagraphStyle>;
     } else {
-        floorParagraph = <ItemParagraphStyle>Has {item.floors ? item.floors : 'no'} floors</ItemParagraphStyle>;
+        floorParagraph = <ItemParagraphStyle>Has {item.floors} floors</ItemParagraphStyle>;
     }
     return (
         <ItemLiStyle>
@@ -23,7 +24,9 @@ function ItemCard({item}) {
             {floorParagraph}
             <ItemParagraphStyle>Has {item.pool ? '' : 'no '}swimming pool</ItemParagraphStyle>
             <ItemButtonsBlockStyle>
-                <ItemButtonStyle variant="outline-info" href="/item">Show more</ItemButtonStyle>
+                <ItemButtonLinkStyle to={"/catalog" + item.id}>
+                    <ItemButtonStyle variant="outline-info"> Show more </ItemButtonStyle>
+                </ItemButtonLinkStyle>
             </ItemButtonsBlockStyle>
         </ItemLiStyle>
     );
