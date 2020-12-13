@@ -3,7 +3,7 @@ import {
     ItemLiStyle, ItemImgWrapStyle, ItemTitleStyle,
     ItemParagraphStyle, ItemButtonsBlockStyle, ItemImgStyle, ItemButtonStyle, ItemButtonLinkStyle
 } from "../styles/ItemCard.styled"
-import {Link} from "react-router-dom";
+
 
 function ItemCard({item}) {
     let floorParagraph;
