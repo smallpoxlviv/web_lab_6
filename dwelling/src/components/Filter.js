@@ -3,14 +3,26 @@ import {Container, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import {HeaderFilterButtonStyle} from "../styles/General.styled";
 import React, {useEffect, useState} from "react";
 import {areaConstants, priceConstants, floorsConstants} from "../constants/constants";
+import {getFilteredDwellings} from "../api/api";
 
-function Filter({dwellings, setDwellingsToShow}) {
+function Filter({setDwellingsToShow, setSpinner}) {
 
     const [filter, setFilter] = useState({
         priceFilter: priceConstants.default,
         areaFilter: areaConstants.all,
         floorsFilter: floorsConstants.all
     });
+
+    useEffect(() => {
+        getFilteredDwellings(filter.priceFilter, filter.areaFilter, filter.floorsFilter).then(filteredDwellings => {
+            setDwellingsToShow([...filteredDwellings.dwellings]);
+            setSpinner(false);
+        })
+        return () => {
+            setSpinner(true);
+        };
+    }, [filter, setDwellingsToShow]);
+
 
     const [priceActive, setPriceActive] = useState({
         asc: false,
@@ -34,77 +46,6 @@ function Filter({dwellings, setDwellingsToShow}) {
         fourMore: false,
         all: true
     });
-
-    useEffect(() => {
-        changeItemsToShow();
-    }, [filter]);
-
-    const changeItemsToShow = () => {
-        let sortedDwellings = [...dwellings];
-
-        // price filter
-        if (filter.priceFilter === priceConstants.asc) {
-            sortedDwellings.sort(priceComparatorAsc);
-        } else if (filter.priceFilter === priceConstants.desc) {
-            sortedDwellings.sort(priceComparatorDesc);
-        }
-
-        function priceComparatorAsc(first, second) {
-            let priceFirst = first.price;
-            let priceSecond = second.price;
-            return (priceFirst - priceSecond);
-        }
-
-        function priceComparatorDesc(first, second) {
-            let priceFirst = first.price;
-            let priceSecond = second.price;
-            return (priceSecond - priceFirst);
-        }
-
-        // area filter
-        if (filter.areaFilter === areaConstants.fiftyLess) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.area <= 50;
-            });
-        } else if (filter.areaFilter === areaConstants.fiftyHundred) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.area >= 50 && dwelling.area <= 100;
-            });
-        } else if (filter.areaFilter === areaConstants.hundredTwoHundreds) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.area >= 100 && dwelling.area <= 200;
-            });
-        } else if (filter.areaFilter === areaConstants.twoHundredsMore) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.area >= 200;
-            });
-        }
-
-        // floors filter
-        if (filter.floorsFilter === floorsConstants.one) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.floors === 1;
-            });
-        } else if (filter.floorsFilter === floorsConstants.two) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.floors === 2;
-            });
-        } else if (filter.floorsFilter === floorsConstants.three) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.floors === 3;
-            });
-        } else if (filter.floorsFilter === floorsConstants.four) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.floors === 4;
-            });
-        } else if (filter.floorsFilter === floorsConstants.fourMore) {
-            sortedDwellings = sortedDwellings.filter(dwelling => {
-                return dwelling.floors > 4;
-            });
-        }
-
-        setDwellingsToShow([...sortedDwellings]);
-    }
 
     const onPriceClick = (e) => {
         const text = e.target.text;
@@ -357,7 +298,8 @@ function Filter({dwellings, setDwellingsToShow}) {
                                 </NavDropdown>
                             </FilterBlock>
                         </Nav>
-                        <HeaderFilterButtonStyle onClick={onClearClick} variant="outline-info">Clear</HeaderFilterButtonStyle>
+                        <HeaderFilterButtonStyle onClick={onClearClick}
+                                                 variant="outline-info">Clear</HeaderFilterButtonStyle>
                     </Navbar.Collapse>
                 </Container>
             </Navbar>

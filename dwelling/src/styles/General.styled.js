@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import {Button} from "react-bootstrap";
+import {Button, Spinner} from "react-bootstrap";
 
 export const ContainerStyle = styled.div`
   padding: 0px 20px;
@@ -40,5 +40,18 @@ export const HeaderFilterButtonStyle = styled(Button)`
     margin-right: 10px;
 `;
 
+export const SpinnerBlockStyle = styled.div`
+  width: 100%;
+  margin-top: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const SpinnerStyle = styled(Spinner)`
+  width: 150px;
+  height: 150px;
+  color: #5bc0de;
+`;
 
 

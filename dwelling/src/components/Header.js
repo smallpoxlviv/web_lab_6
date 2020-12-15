@@ -13,10 +13,10 @@ function Header({search, dwellings, setDwellingsToShow}) {
 
         dwellingsToShow = dwellings.filter(dwelling => {
             const title = dwelling.title.toLowerCase().includes(inputString);
-            const area = dwelling.area.toString().toLowerCase().includes(inputString);
-            const price = dwelling.price.toString().toLowerCase().includes(inputString);
+            const area = dwelling.area_in_square_meters.toString().toLowerCase().includes(inputString);
+            const price = dwelling.price_in_USD.toString().toLowerCase().includes(inputString);
             const location = dwelling.location.toLowerCase().includes(inputString);
-            const floors = dwelling.floors.toString().toLowerCase().includes(inputString);
+            const floors = dwelling.floors_count.toString().toLowerCase().includes(inputString);
             return title || area || price || location || floors;
         });
         setDwellingsToShow([...dwellingsToShow]);

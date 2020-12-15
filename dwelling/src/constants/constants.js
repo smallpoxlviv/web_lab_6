@@ -6,10 +6,10 @@ export const priceConstants = {
 
 export const areaConstants = {
     all: "all",
-    fiftyLess: "<50 м2",
-    fiftyHundred: "50-100 м2",
-    hundredTwoHundreds: "100-200 м2",
-    twoHundredsMore: ">200 м2"
+    fiftyLess: "50",
+    fiftyHundred: "50-100",
+    hundredTwoHundreds: "100-200",
+    twoHundredsMore: "200"
 };
 
 export const floorsConstants = {
@@ -18,5 +18,5 @@ export const floorsConstants = {
     two: "2",
     three: "3",
     four: "4",
-    fourMore: ">4"
+    fourMore: "more"
 };

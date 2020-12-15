@@ -1,80 +1,83 @@
-import React, {useContext, useMemo} from 'react';
-import {ContainerStyle, MarginTopFromHeaderStyle} from "../styles/General.styled"
+import React, {useEffect, useState} from 'react';
+import {ContainerStyle, MarginTopFromHeaderStyle, SpinnerBlockStyle, SpinnerStyle} from "../styles/General.styled"
 import Header from "../components/Header";
 import {
     ItemImgStyle,
     ItemMainBlockStyle,
     ItemMainTextBlockStyle,
     ItemMainTextParagraphStyle,
-    ItemMainTextTitleStyle, ItemTextParagraphStyle, ItemDivToDownStyle
+    ItemMainTextTitleStyle,
+    ItemTextParagraphStyle
 } from "../styles/Item.styled";
 import LowBar from "../components/LowBar";
-import {DwellingContext} from "../context/DwellingContext";
+import {getDwellingById} from "../api/api";
 
 
 function Item({match}) {
     const {params: {id}} = match;
-    const dwellings = useContext(DwellingContext);
+    const [dwelling, setDwelling] = useState(false);
+    const [spinner, setSpinner] = useState(true);
 
-    const dwellingToShow = useMemo(() => {
-            const dwellingToShowArray = dwellings.filter(dwelling => {
-                return dwelling.id.toString() === id
-            });
-            if (dwellingToShowArray.length === 1) {
-                return dwellingToShowArray[0];
-            } else {
-                return false;
-            }
-        }, [dwellings, id])
-    ;
+    useEffect(() => {
+        getDwellingById(id).then(dwelling => {
+            setDwelling(dwelling);
+            setSpinner(false)
+        })
+    }, []);
 
     let floorParagraph;
-    if (dwellingToShow.floors === 1) {
+    if (dwelling.floors_count === 1) {
         floorParagraph = <ItemMainTextParagraphStyle>Has 1 floor</ItemMainTextParagraphStyle>;
     } else {
-        floorParagraph = <ItemMainTextParagraphStyle>Has {dwellingToShow.floors} floors</ItemMainTextParagraphStyle>;
+        floorParagraph = <ItemMainTextParagraphStyle>Has {dwelling.floors_count} floors</ItemMainTextParagraphStyle>;
     }
 
     return (
         <>
             <Header search={false}/>
             <MarginTopFromHeaderStyle>
-                <ContainerStyle>
-                    {dwellingToShow ?
-                        <>
-                            <ItemMainBlockStyle>
-                                <ItemImgStyle src={dwellingToShow.img} alt="Logo"/>
-                                <ItemMainTextBlockStyle>
-                                    <ItemMainTextTitleStyle>
-                                        {dwellingToShow.title}
-                                    </ItemMainTextTitleStyle>
-                                    <ItemMainTextParagraphStyle>
-                                        Area: {dwellingToShow.area} m^2
-                                    </ItemMainTextParagraphStyle>
-                                    <ItemMainTextParagraphStyle>
-                                        Price: {dwellingToShow.price} USD
-                                    </ItemMainTextParagraphStyle>
-                                    <ItemMainTextParagraphStyle>
-                                        Location: {dwellingToShow.location}
-                                    </ItemMainTextParagraphStyle>
-                                    {floorParagraph}
-                                    <ItemMainTextParagraphStyle>
-                                        Has {dwellingToShow.pool ? '' : 'no '}swimming pool
-                                    </ItemMainTextParagraphStyle>
-                                    <ItemTextParagraphStyle>
-                                        {dwellingToShow.description}
-                                    </ItemTextParagraphStyle>
-                                </ItemMainTextBlockStyle>
-                            </ItemMainBlockStyle>
+                {spinner ?
+                    <SpinnerBlockStyle>
+                        <SpinnerStyle animation="border"/>
+                    </SpinnerBlockStyle>
+                    : (<ContainerStyle>
+                        {dwelling ?
+                            <>
+                                <ItemMainBlockStyle>
+                                    <ItemImgStyle src={dwelling.img} alt="Logo"/>
+                                    <ItemMainTextBlockStyle>
+                                        <ItemMainTextTitleStyle>
+                                            {dwelling.title}
+                                        </ItemMainTextTitleStyle>
+                                        <ItemMainTextParagraphStyle>
+                                            Area: {dwelling.area_in_square_meters} m^2
+                                        </ItemMainTextParagraphStyle>
+                                        <ItemMainTextParagraphStyle>
+                                            Price: {dwelling.price_in_USD} USD
+                                        </ItemMainTextParagraphStyle>
+                                        <ItemMainTextParagraphStyle>
+                                            Location: {dwelling.location}
+                                        </ItemMainTextParagraphStyle>
+                                        {floorParagraph}
+                                        <ItemMainTextParagraphStyle>
+                                            Has {dwelling.swimming_pool ? '' : 'no '}swimming pool
+                                        </ItemMainTextParagraphStyle>
+                                        <ItemTextParagraphStyle>
+                                            {dwelling.description}
+                                        </ItemTextParagraphStyle>
+                                    </ItemMainTextBlockStyle>
+                                </ItemMainBlockStyle>
 
-                            <LowBar price={dwellingToShow.price}/>
-                        </>
-                        : "404"}
+                                <LowBar price={dwelling.price_in_USD}/>
+                            </>
+                            : "404"}
 
-                </ContainerStyle>
+                    </ContainerStyle>)
+                }
+
             </MarginTopFromHeaderStyle>
         </>
     );
-}
+};
 
 export default Item;

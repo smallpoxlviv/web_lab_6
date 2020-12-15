@@ -70,3 +70,5 @@ export const ItemTextParagraphStyle = styled.p`
   @media (max-width: 426px) {
   }
 `;
+
+
