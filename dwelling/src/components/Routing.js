@@ -1,16 +1,14 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 import Home from "../pages/Home";
 import Catalog from "../pages/Catalog";
 import Item from "../pages/Item";
 import Cart from "../pages/Cart";
-import {DwellingProvider} from "../context/DwellingContext";
 
 
 function Routing() {
 
     return (
-        <DwellingProvider>
             <Router>
                 <Switch>
                     <Route exact path="/" component={Home}/>
@@ -19,7 +17,6 @@ function Routing() {
                     <Route exact path="/cart" component={Cart}/>
                 </Switch>
             </Router>
-        </DwellingProvider>
     );
 }
 

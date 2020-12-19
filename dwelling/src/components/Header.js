@@ -38,13 +38,13 @@ function Header({search, dwellings, setDwellingsToShow}) {
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
                         <Link to="/">
-                            <Nav.Link href="/"> Home </Nav.Link>
+                            <Nav.Link href="/" as="span"> Home </Nav.Link>
                         </Link>
                         <Link to="catalog">
-                            <Nav.Link as="a" href="/catalog"> Catalog </Nav.Link>
+                            <Nav.Link href="/catalog" as="span"> Catalog </Nav.Link>
                         </Link>
                         <Link to="cart">
-                            <Nav.Link href="/cart"> Cart </Nav.Link>
+                            <Nav.Link href="/cart" as="span"> Cart </Nav.Link>
                         </Link>
                     </Nav>
                     {search &&

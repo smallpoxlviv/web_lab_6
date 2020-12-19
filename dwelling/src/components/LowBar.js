@@ -1,11 +1,15 @@
 import React from 'react';
 import {LowBarButtonsStyle, LowBarButtonStyle, LowBarStyle, LowBarTextStyle} from "../styles/LowBar.styled";
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {addToCartAsync} from "../redux/quantitySlice";
 
-function LowBar({price}) {
+function LowBar({price, id}) {
 
-    const onGoBackClick = () => {
+    const dispatch = useDispatch();
 
+    function onAddToCartClick() {
+        dispatch(addToCartAsync(id))
     }
 
     return (
@@ -13,9 +17,9 @@ function LowBar({price}) {
             <LowBarTextStyle>Price: {price} USD</LowBarTextStyle>
             <LowBarButtonsStyle>
                 <Link to="/catalog">
-                    <LowBarButtonStyle onClick={onGoBackClick} variant="outline-info">Go back</LowBarButtonStyle>
+                    <LowBarButtonStyle variant="outline-info">Go back</LowBarButtonStyle>
                 </Link>
-                <LowBarButtonStyle variant="outline-info">Add to cart</LowBarButtonStyle>
+                <LowBarButtonStyle onClick={onAddToCartClick} variant="outline-info">Add to cart</LowBarButtonStyle>
             </LowBarButtonsStyle>
         </LowBarStyle>
     );

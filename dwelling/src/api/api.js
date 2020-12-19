@@ -9,17 +9,17 @@ const instance = axios.create({
 });
 
 export async function getDwellings() {
-    await delay(500);
+    // await delay(500);
     return (await instance.get()).data;
 }
 
 export async function getDwellingById(id) {
-    await delay(500);
+    // await delay(500);
     return (await instance.get(`${id}`)).data;
 }
 
 export async function getFilteredDwellings(price, area, floors) {
-    await delay(500);
+    // await delay(500);
     return (await instance.get(`/filter?price=${price}&area=${area}&floors=${floors}`)).data;
 }
 

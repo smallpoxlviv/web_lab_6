@@ -21,7 +21,7 @@ function Filter({setDwellingsToShow, setSpinner}) {
         return () => {
             setSpinner(true);
         };
-    }, [filter, setDwellingsToShow]);
+    }, [filter, setDwellingsToShow, setSpinner]);
 
 
     const [priceActive, setPriceActive] = useState({

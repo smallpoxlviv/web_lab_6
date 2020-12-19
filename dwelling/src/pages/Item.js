@@ -68,7 +68,7 @@ function Item({match}) {
                                     </ItemMainTextBlockStyle>
                                 </ItemMainBlockStyle>
 
-                                <LowBar price={dwelling.price_in_USD}/>
+                                <LowBar price={dwelling.price_in_USD} id={dwelling.id}/>
                             </>
                             : "404"}
 
