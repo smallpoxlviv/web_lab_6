@@ -15,7 +15,7 @@ import {
 } from "../styles/Home.styled";
 import HomeItem from "../components/HomeItem";
 import {useSelector} from "react-redux";
-import {getQuantity} from "../redux/quantitySlice";
+import {getQuantity} from "../redux/cartSlice";
 
 
 function Home() {

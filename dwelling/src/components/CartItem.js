@@ -10,7 +10,7 @@ import {
     CartItemTitleStyle
 } from "../styles/CartItem.styled";
 import {useDispatch} from "react-redux";
-import {decrementQuantity, deleteItemFromCart, incrementQuantity} from "../redux/quantitySlice";
+import {decrementQuantity, deleteItemFromCart, incrementQuantity} from "../redux/cartSlice";
 
 function CartItem({item}) {
     const dispatch = useDispatch();

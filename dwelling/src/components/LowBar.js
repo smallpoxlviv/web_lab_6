@@ -2,7 +2,7 @@ import React from 'react';
 import {LowBarButtonsStyle, LowBarButtonStyle, LowBarStyle, LowBarTextStyle} from "../styles/LowBar.styled";
 import {Link} from "react-router-dom";
 import {useDispatch} from "react-redux";
-import {addToCartAsync} from "../redux/quantitySlice";
+import {addToCartAsync} from "../redux/cartSlice";
 
 function LowBar({price, id}) {
 

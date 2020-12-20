@@ -43,5 +43,4 @@ export const LowBarButtonStyle = styled(Button)`
   @media (max-width: 370px) {
     margin: 0 0 10px 0;
   }
-
 `;

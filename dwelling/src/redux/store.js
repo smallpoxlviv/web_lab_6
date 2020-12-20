@@ -1,8 +1,10 @@
 import {configureStore} from "@reduxjs/toolkit";
-import quantityReducer from "./quantitySlice";
+import cartReducer from "./cartSlice";
+import checkoutReducer from "./checkoutSlice";
 
 export default configureStore({
     reducer: {
-        quantityReducer: quantityReducer
+        cartReducer: cartReducer,
+        checkoutReducer: checkoutReducer
     }
 })
