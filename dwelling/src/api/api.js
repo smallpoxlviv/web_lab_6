@@ -23,6 +23,11 @@ export async function getFilteredDwellings(price, area, floors) {
     return (await instance.get(`/filter?price=${price}&area=${area}&floors=${floors}`)).data;
 }
 
+export async function doesUserExists(email, password) {
+    // await delay(500);
+    return (await instance.get(`/doesUserExists?email=${email}&password=${password}`)).data;
+}
+
 
 async function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms))

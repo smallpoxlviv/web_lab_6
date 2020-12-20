@@ -1,6 +1,7 @@
 from classes.model.dwelling import Dwelling
+from classes.model.user import User
 from constants import *
-from utils import filter_dwellings
+from utils import filter_dwellings, does_user_exists
 
 from flask import Flask, request, jsonify, abort
 from flask_marshmallow import Marshmallow
@@ -55,6 +56,22 @@ class DwellingShema(ma.Schema):
 
 dwelling_schema = DwellingShema()
 dwellings_schema = DwellingShema(many = True)
+
+class RestUser(User, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(45), unique=True)
+    email = db.Column(db.String(90), unique=True)
+    password = db.Column(db.String(45), unique=False)
+
+    def __init__(self, username, email, password):
+        super().__init__(username, email, password)
+
+class UserShema(ma.Schema):
+    class Meta:
+        fields = ('id', 'username', 'email', 'password')
+
+user_schema = UserShema()
+users_schema = UserShema(many = True)
 
 
 @app.route("/dwelling", methods=["GET"])
@@ -128,6 +145,17 @@ def dwelling_delete(id):
     db.session.delete(dwelling)
     db.session.commit()
     return dwelling_schema.jsonify(dwelling) 
+
+@app.route("/dwelling/doesUserExists", methods=["GET"])
+@cross_origin()
+def get_does_user_exists():
+    users = RestUser.query.all()
+    users = users_schema.dump(users)
+    email = request.args.get('email')
+    password = request.args.get('password')
+
+    result = does_user_exists(email, password, users)
+    return jsonify({'userExists' : result})
 
 
 if __name__ == "__main__":

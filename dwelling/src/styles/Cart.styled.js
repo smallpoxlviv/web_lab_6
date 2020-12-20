@@ -1,12 +1,6 @@
 import styled from "styled-components"
 import {Button} from "react-bootstrap";
 
-// export const CartWrapperToDownButtonsStyle = styled.div`
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   height: 100%;
-// `;
 
 export const CartTitleStyle = styled.h3`
   margin: 20px;

@@ -81,3 +81,13 @@ def filter_dwellings(price: str, area: str, floors: str, dwellings: list):
         dwellings = list(filter(floors_five, dwellings))
 
     return dwellings
+
+
+def does_user_exists(email: str, password: str, users: list):
+    if len(users) == 0:
+        return False
+
+    for user in users:
+        if user['email'] == email and user['password'] == password:
+            return True
+    return False
