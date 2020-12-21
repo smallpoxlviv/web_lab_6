@@ -1,7 +1,8 @@
 from classes.model.dwelling import Dwelling
 from classes.model.user import User
 from constants import *
-from utils import filter_dwellings, does_user_exists
+from utils import filter_dwellings, can_user_be_logged_in, \
+does_user_exists, generate_logged_in_value, did_user_login
 
 from flask import Flask, request, jsonify, abort
 from flask_marshmallow import Marshmallow
@@ -62,13 +63,14 @@ class RestUser(User, db.Model):
     username = db.Column(db.String(45), unique=True)
     email = db.Column(db.String(90), unique=True)
     password = db.Column(db.String(45), unique=False)
+    logged_in_value = db.Column(db.Text, unique=False)
 
-    def __init__(self, username, email, password):
-        super().__init__(username, email, password)
+    def __init__(self, username, email, password, logged_in_value):
+        super().__init__(username, email, password, logged_in_value)
 
 class UserShema(ma.Schema):
     class Meta:
-        fields = ('id', 'username', 'email', 'password')
+        fields = ('id', 'username', 'email', 'password', 'logged_in_value')
 
 user_schema = UserShema()
 users_schema = UserShema(many = True)
@@ -117,7 +119,7 @@ def add_dwelling():
 
 @app.route("/dwelling/<id>", methods=["PUT"])
 # @cross_origin()
-def dwelling_update(id):
+def update_dwelling(id):
     dwelling = RestDwelling.query.get(id)
     if not dwelling: 
         abort(404)
@@ -137,7 +139,7 @@ def dwelling_update(id):
 
 @app.route("/dwelling/<id>", methods=["DELETE"])
 # @cross_origin()
-def dwelling_delete(id):
+def delete_dwelling(id):
     dwelling = RestDwelling.query.get(id)
     if not dwelling: 
         abort(404)
@@ -146,16 +148,53 @@ def dwelling_delete(id):
     db.session.commit()
     return dwelling_schema.jsonify(dwelling) 
 
-@app.route("/dwelling/doesUserExists", methods=["GET"])
+
+@app.route("/user/login", methods=["POST"])
 @cross_origin()
-def get_does_user_exists():
+def login_user():
     users = RestUser.query.all()
     users = users_schema.dump(users)
-    email = request.args.get('email')
-    password = request.args.get('password')
+    data = request.json
 
-    result = does_user_exists(email, password, users)
-    return jsonify({'userExists' : result})
+    result = can_user_be_logged_in(data['email'], data['password'], users)
+    return jsonify({'loggedInValue' : result})
+
+
+@app.route("/user/register", methods=["POST"])
+@cross_origin()
+def register_user():
+    data = request.json
+    users = RestUser.query.all()
+    users_schema = UserShema(many = True, only = ['username', 'email'])
+    users = users_schema.dump(users)
+
+    exists = does_user_exists(data['username'],data['email'], users)
+    if exists:
+        result = exists
+    else: 
+        result = True
+        logged_in_value = generate_logged_in_value(data['username']);
+        new_user = RestUser(data['username'],data['email'], data['password'], logged_in_value)
+        db.session.add(new_user)
+        db.session.commit()
+
+    return jsonify({'result' : result})
+
+
+
+@app.route("/user/check_logged_in", methods=["POST"])
+@cross_origin()
+def check_logged_user_in():
+    logged_in_value = request.json['loggedInValue']
+    if logged_in_value == None:
+        result = False
+    else:
+        users = RestUser.query.all()
+        users_schema = UserShema(many = True, only = ['logged_in_value'])
+        users = users_schema.dump(users)
+        result = did_user_login(logged_in_value, users)
+
+    return jsonify({'result' : result})
 
 
 if __name__ == "__main__":

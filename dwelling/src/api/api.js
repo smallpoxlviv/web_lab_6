@@ -2,7 +2,7 @@ import axios from "axios";
 
 
 const instance = axios.create({
-    baseURL: 'http://127.0.0.1:5000/dwelling',
+    baseURL: 'http://127.0.0.1:5000',
     headers: {
         'Content-Type': 'application/json',
     }
@@ -10,22 +10,32 @@ const instance = axios.create({
 
 export async function getDwellings() {
     // await delay(500);
-    return (await instance.get()).data;
+    return (await instance.get('/dwelling')).data;
 }
 
 export async function getDwellingById(id) {
     // await delay(500);
-    return (await instance.get(`${id}`)).data;
+    return (await instance.get(`/dwelling/${id}`)).data;
 }
 
 export async function getFilteredDwellings(price, area, floors) {
     // await delay(500);
-    return (await instance.get(`/filter?price=${price}&area=${area}&floors=${floors}`)).data;
+    return (await instance.get(`/dwelling/filter?price=${price}&area=${area}&floors=${floors}`)).data;
 }
 
-export async function doesUserExists(email, password) {
+export async function loginUser(email, password) {
+    // await delay(3000);
+    return (await instance.post(`/user/login`, {email: email, password: password})).data;
+}
+
+export async function registerUser(username, email, password) {
+    // await delay(3000);
+    return (await instance.post(`/user/register`, {username: username, email: email, password: password})).data;
+}
+
+export async function didUserLogin(loggedInValue) {
     // await delay(500);
-    return (await instance.get(`/doesUserExists?email=${email}&password=${password}`)).data;
+    return (await instance.post(`/user/check_logged_in`, {loggedInValue: loggedInValue})).data;
 }
 
 

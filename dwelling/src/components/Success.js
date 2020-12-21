@@ -1,7 +1,6 @@
 import React, {useEffect} from "react";
 import {setSuccess} from "../redux/checkoutSlice";
 import {useDispatch} from "react-redux";
-import {CartButtonStyle} from "../styles/Cart.styled";
 import {Link} from "react-router-dom";
 import {clearCartItems} from "../redux/cartSlice";
 import success from '../images/success.png'

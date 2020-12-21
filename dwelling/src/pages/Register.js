@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ContainerStyle, MarginTopFromHeaderStyle} from "../styles/General.styled";
 import {ErrorMessage, Form, Formik} from "formik";
 import * as yup from "yup";
@@ -10,12 +10,26 @@ import {
     RegisterLabelStyle,
     RegisterTitleStyle
 } from "../styles/Register.styled";
-import {Link} from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
+import {registerUser} from "../api/api";
 
 function Register() {
 
-    function onSubmitRegister(username, email, password, confirmPassword) {
-        console.log('on register');
+    const [buttonActive, setButtonActive] = useState(true);
+    const history = useHistory();
+
+    function onSubmitRegister(username, email, password) {
+        setButtonActive(false);
+        registerUser(username, email, password).then((data) => {
+            if (data.result === true) {
+                alert('You have successfully registered!');
+                setButtonActive(true);
+                history.push('/login');
+            } else if (data.result === 'username' || data.result === 'email') {
+                alert(`User with such ${data.result} already exists!`);
+                setButtonActive(true);
+            }
+        });
     }
 
     return (
@@ -53,7 +67,7 @@ function Register() {
                     })}
 
                     onSubmit={(values) => {
-                        onSubmitRegister(values.username, values.email, values.password, values.confirmPassword);
+                        onSubmitRegister(values.username, values.email, values.password);
                         console.log(values);
                     }}
                 >
@@ -116,7 +130,8 @@ function Register() {
                                     </RegisterInputBlockStyle>
 
                                     <RegisterInputBlockStyle>
-                                        <RegisterLabelStyle htmlFor="confirmPassword">Confirm password</RegisterLabelStyle>
+                                        <RegisterLabelStyle htmlFor="confirmPassword">Confirm
+                                            password</RegisterLabelStyle>
                                         <input
                                             type={'password'}
                                             name={'confirmPassword'}
@@ -132,21 +147,27 @@ function Register() {
 
                                     <p>Already a member? <Link to="/login">Sign in</Link></p>
 
-                                    <RegisterButtonStyle
-                                        disabled={!isValid && !dirty}
-                                        onClick={handleSubmit}
-                                        type='submit'
-                                        variant="outline-info">
-                                        Sign me up</RegisterButtonStyle>
+                                    {buttonActive
+                                        ? (
+                                            <RegisterButtonStyle
+                                                disabled={!isValid && !dirty}
+                                                onClick={handleSubmit}
+                                                type='submit'
+                                                variant="outline-info">
+                                                Login me</RegisterButtonStyle>
+                                        ) : (
+                                            <RegisterButtonStyle
+                                                disabled={true}
+                                                onClick={handleSubmit}
+                                                type='submit'
+                                                variant="outline-info">
+                                                Login me</RegisterButtonStyle>
+                                        )}
 
                                 </RegisterFormStyle>
-
-
                             </Form>)
                     }}
-
                 </Formik>
-
 
             </ContainerStyle>
         </MarginTopFromHeaderStyle>

@@ -16,7 +16,7 @@ export const checkoutSlice = createSlice({
     }
 });
 
-export default checkoutSlice.reducer
+export default checkoutSlice.reducer;
 export const {setCheckout, setSuccess} = checkoutSlice.actions;
 
 export const getCheckout = (store) => store.checkoutReducer.checkout;

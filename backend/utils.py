@@ -1,4 +1,6 @@
 from constants import *
+import string
+import random
 
 
 def price_comparator(element):
@@ -83,11 +85,40 @@ def filter_dwellings(price: str, area: str, floors: str, dwellings: list):
     return dwellings
 
 
-def does_user_exists(email: str, password: str, users: list):
+def can_user_be_logged_in(email: str, password: str, users: list):
     if len(users) == 0:
         return False
 
     for user in users:
         if user['email'] == email and user['password'] == password:
+            return user['logged_in_value']
+    return False
+
+
+def does_user_exists(username: str, email: str, users: list):
+    if len(users) == 0:
+        return False
+
+    for user in users:
+        if user['username'] == username:
+            return 'username'
+    for user in users:
+        if user['email'] == email:
+            return 'email'
+    return False
+
+
+def generate_logged_in_value(username: str):
+    characters = string.ascii_letters + string.digits
+    logged_in_value = username
+
+    while len(logged_in_value) < 100:
+        logged_in_value = logged_in_value + random.choice(characters)
+    return logged_in_value
+
+
+def did_user_login(logged_in_value: str, users: list):
+    for user in users:
+        if user['logged_in_value'] == logged_in_value:
             return True
     return False

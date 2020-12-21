@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter as Router, Redirect, Route, Switch} from "react-router-dom";
 import Home from "../pages/Home";
 import Catalog from "../pages/Catalog";
@@ -8,24 +8,38 @@ import Login from "../pages/Login";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "../pages/Register";
 import NotFound from "../pages/NotFound";
+import {didUserLogin} from "../api/api";
+import {loggedInKey} from "../constants/constants";
+import {useDispatch, useSelector} from "react-redux";
+import {getAccess, setAccess} from "../redux/accessSlice";
 
 
 function Routing() {
 
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
+    const dispatch = useDispatch();
+    const access = useSelector(getAccess);
+
+    useEffect(() => {
+        didUserLogin(localStorage.getItem(loggedInKey)).then((data) => {
+            if (data.result === true) {
+                dispatch(setAccess(true));
+            } else {
+                dispatch(setAccess(false));
+            }
+        });
+    }, [access, dispatch])
 
     return (
         <Router>
             <Switch>
 
-                <ProtectedRoute exact path="/" component={Home}/>
-                <ProtectedRoute exact path="/catalog" component={Catalog}/>
-                <ProtectedRoute exact path="/catalog:id" component={Item}/>
-                <ProtectedRoute exact path="/cart" component={Cart}/>
-
+                <ProtectedRoute exact path="/" access={access} component={Home}/>
+                <ProtectedRoute exact path="/catalog" access={access} component={Catalog}/>
+                <ProtectedRoute exact path="/catalog:id" access={access} component={Item}/>
+                <ProtectedRoute exact path="/cart" access={access} component={Cart}/>
 
                 <Route exact path="/login">
-                    {isLoggedIn ? (
+                    {access ? (
                         <Redirect to="/"/>
                     ) : (
                         <Login/>
@@ -33,7 +47,7 @@ function Routing() {
                 </Route>
 
                 <Route exact path="/register">
-                    {isLoggedIn ? (
+                    {access ? (
                         <Redirect to="/"/>
                     ) : (
                         <Register/>

@@ -12,7 +12,6 @@ function NotFound() {
                     <NotFoundStyle>
                         404 NOT FOUND
                     </NotFoundStyle>
-
                 </ContainerStyle>
             </MarginTopFromHeaderStyle>
         </>

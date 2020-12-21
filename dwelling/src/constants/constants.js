@@ -20,3 +20,5 @@ export const floorsConstants = {
     four: "4",
     fourMore: "more"
 };
+
+export const loggedInKey = 'loggedInKey';

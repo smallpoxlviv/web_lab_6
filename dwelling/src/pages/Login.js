@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ContainerStyle, MarginTopFromHeaderStyle} from "../styles/General.styled";
 import * as yup from "yup";
 import {ErrorMessage, Form, Formik} from "formik";
@@ -11,18 +11,32 @@ import {
     LoginTitleStyle
 } from "../styles/Login.styled";
 import {Link} from "react-router-dom";
-import {doesUserExists} from "../api/api";
+import {loginUser} from "../api/api";
+import {loggedInKey} from "../constants/constants";
+import {useDispatch} from "react-redux";
+import {setAccess} from "../redux/accessSlice";
+
 
 function Login() {
 
+    const dispatch = useDispatch();
+    const [buttonActive, setButtonActive] = useState(true);
+
+    function reRenderRouting(data){
+        localStorage.setItem(loggedInKey, data.loggedInValue);
+        dispatch(setAccess(true));
+    }
+
     function onSubmitLogin(email, password) {
-        doesUserExists(email, password).then((data) => {
-            if (data.userExists) {
-                localStorage.setItem('isLoggedIn', 'true');
+        setButtonActive(false);
+        loginUser(email, password).then((data) => {
+            if (data.loggedInValue) {
+                setButtonActive(true);
+                reRenderRouting(data);
             } else {
-                console.log('user doesnt exists');
+                alert('Email or password is incorrect!')
+                setButtonActive(true);
             }
-            console.log('on login');
         });
     }
 
@@ -32,10 +46,8 @@ function Login() {
 
                 <Formik
                     initialValues={{
-                        username: '',
                         email: '',
                         password: '',
-                        confirmPassword: ''
                     }}
                     validationSchema={yup.object({
                         email: yup
@@ -52,7 +64,9 @@ function Login() {
 
                     onSubmit={(values) => {
                         onSubmitLogin(values.email, values.password);
+
                         console.log(values);
+
                     }}
                 >
                     {({
@@ -100,12 +114,22 @@ function Login() {
 
                                     <p>Not a member? <Link to="/register">Sign up</Link></p>
 
-                                    <LoginButtonStyle
-                                        disabled={!isValid && !dirty}
-                                        onClick={handleSubmit}
-                                        type='submit'
-                                        variant="outline-info">
-                                        Login me</LoginButtonStyle>
+                                    {buttonActive
+                                        ? (
+                                            <LoginButtonStyle
+                                                disabled={!isValid && !dirty}
+                                                onClick={handleSubmit}
+                                                type='submit'
+                                                variant="outline-info">
+                                                Login me</LoginButtonStyle>
+                                        ) : (
+                                            <LoginButtonStyle
+                                                disabled={true}
+                                                onClick={handleSubmit}
+                                                type='submit'
+                                                variant="outline-info">
+                                                Login me</LoginButtonStyle>
+                                        )}
 
                                 </LoginFormStyle>
                             </Form>)

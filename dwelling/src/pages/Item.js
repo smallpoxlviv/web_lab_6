@@ -23,7 +23,7 @@ function Item({match}) {
             setDwelling(dwelling);
             setSpinner(false)
         })
-    }, []);
+    }, [id]);
 
     let floorParagraph;
     if (dwelling.floors_count === 1) {

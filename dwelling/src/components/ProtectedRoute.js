@@ -2,26 +2,17 @@ import React from 'react';
 import {Redirect, Route} from "react-router-dom";
 
 
-function ProtectedRoute({component: Component, ...rest}) {
+function ProtectedRoute({component: Component, access, ...rest}) {
 
-    localStorage.setItem('isLoggedIn', 'false');
-
-    const isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
-
-    return (
-        <Route
-            {...rest}
-            render={(props) => {
-                if (isLoggedIn) {
-                    return <Component/>
-                } else {
-                    return (
-                        <Redirect to={{pathname: '/login', state: {from: props.location}}} />
-                    )
-                }
-            }}
-        />
-    );
-}
+    if (access) {
+        return (
+            <Route {...rest} component={Component}/>
+        );
+    } else {
+        return (
+            <Redirect to="/login"/>
+        );
+    }
+};
 
 export default ProtectedRoute;

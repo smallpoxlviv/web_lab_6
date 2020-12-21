@@ -36,8 +36,16 @@ export const WrapperToDownFooterStyle = styled.div`
 `;
 
 export const HeaderFilterButtonStyle = styled(Button)`
-    width: 74px;
-    margin-right: 10px;
+  width: 74px;
+  margin-right: 10px;
+`;
+
+export const HeaderLogOutButtonStyle = styled(Button)`
+  width: 86px;
+  height: 30px;
+  font-size: 14px;
+  padding: 0;
+  margin: auto 0 auto 10px;
 `;
 
 export const SpinnerBlockStyle = styled.div`

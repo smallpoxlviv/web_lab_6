@@ -161,7 +161,7 @@ function Checkout() {
                                 variant="outline-info">
                                 Go Back</CartButtonStyle>
                             <CartButtonStyle
-                                disabled={!isValid && !dirty}
+                                disabled={!dirty}
                                 onClick={handleSubmit}
                                 type='submit'
                                 variant="outline-info">

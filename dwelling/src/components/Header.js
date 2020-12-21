@@ -1,11 +1,20 @@
 import React from 'react';
 import {Container, Form, FormControl, Nav, Navbar} from "react-bootstrap";
-import {HeaderFilterButtonStyle} from "../styles/General.styled"
+import {HeaderFilterButtonStyle, HeaderLogOutButtonStyle} from "../styles/General.styled"
 import logo from "../images/logo.ico";
 import {Link} from "react-router-dom";
+import {useDispatch} from "react-redux";
+import {setAccess} from "../redux/accessSlice";
 
 
 function Header({search, dwellings, setDwellingsToShow}) {
+
+    const dispatch = useDispatch();
+
+    function logOut() {
+        localStorage.clear();
+        dispatch(setAccess(false));
+    }
 
     const searchItems = () => {
         let dwellingsToShow = []
@@ -46,14 +55,16 @@ function Header({search, dwellings, setDwellingsToShow}) {
                         <Link to="cart">
                             <Nav.Link href="/cart" as="span"> Cart </Nav.Link>
                         </Link>
+                        <HeaderLogOutButtonStyle onClick={logOut}
+                                                 variant="outline-info">Log Out</HeaderLogOutButtonStyle>
                     </Nav>
                     {search &&
                     <Form inline>
                         <FormControl onChange={searchItems}
-                            id="searchInput"
-                            type="text"
-                            placeholder="Search"
-                            className="mr-sm-2"
+                                     id="searchInput"
+                                     type="text"
+                                     placeholder="Search"
+                                     className="mr-sm-2"
                         />
                         <HeaderFilterButtonStyle onClick={searchItems}
                                                  variant="outline-info">Search</HeaderFilterButtonStyle>
