@@ -1,13 +1,12 @@
 import React, {useEffect} from "react";
 import * as yup from 'yup';
-import {ErrorMessage, Form, Formik} from "formik";
+import {ErrorMessage, Field, Form, Formik} from "formik";
 import {
     AddressInputBlockStyle,
     CheckoutFormStyle,
     CheckoutRowStyle,
     Error,
     InputBlockStyle,
-    InputStyle,
     LabelStyle
 } from "../styles/Checkout.styled";
 import {CartButtonsBlockStyle, CartButtonStyle} from "../styles/Cart.styled";
@@ -85,7 +84,7 @@ function Checkout() {
                             <CheckoutRowStyle>
                                 <InputBlockStyle>
                                     <LabelStyle htmlFor="firstName">First Name</LabelStyle>
-                                    <InputStyle
+                                    <Field
                                         type={'text'}
                                         name={'firstName'}
                                         onChange={handleChange}
@@ -98,7 +97,7 @@ function Checkout() {
                                 </InputBlockStyle>
                                 <InputBlockStyle>
                                     <LabelStyle htmlFor="lastName">Last Name</LabelStyle>
-                                    <InputStyle
+                                    <Field
                                         type={'text'}
                                         name={'lastName'}
                                         onChange={handleChange}
@@ -114,7 +113,7 @@ function Checkout() {
                             <CheckoutRowStyle>
                                 <InputBlockStyle>
                                     <LabelStyle htmlFor="email">Email</LabelStyle>
-                                    <InputStyle
+                                    <Field
                                         type={'text'}
                                         name={'email'}
                                         onChange={handleChange}
@@ -127,7 +126,7 @@ function Checkout() {
                                 </InputBlockStyle>
                                 <InputBlockStyle>
                                     <LabelStyle htmlFor="phone">Phone</LabelStyle>
-                                    <InputStyle
+                                    <Field
                                         type={'text'}
                                         name={'phone'}
                                         onChange={handleChange}
@@ -142,7 +141,7 @@ function Checkout() {
 
                             <AddressInputBlockStyle>
                                 <LabelStyle htmlFor="address">Address</LabelStyle>
-                                <InputStyle
+                                <Field
                                     type={'text'}
                                     name={'address'}
                                     onChange={handleChange}

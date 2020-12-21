@@ -29,10 +29,6 @@ export const LabelStyle = styled.label`
   font-weight: 500;
 `;
 
-export const InputStyle = styled.input`
-
-`;
-
 export const Error = styled.span`
   color: #d73232;
 `;

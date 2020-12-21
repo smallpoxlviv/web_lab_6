@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ContainerStyle, MarginTopFromHeaderStyle} from "../styles/General.styled";
-import {ErrorMessage, Form, Formik} from "formik";
+import {ErrorMessage, Form, Formik, Field} from "formik";
 import * as yup from "yup";
 import {Error} from "../styles/Checkout.styled";
 import {
@@ -68,7 +68,9 @@ function Register() {
 
                     onSubmit={(values) => {
                         onSubmitRegister(values.username, values.email, values.password);
+
                         console.log(values);
+
                     }}
                 >
                     {({
@@ -87,7 +89,7 @@ function Register() {
 
                                     <RegisterInputBlockStyle>
                                         <RegisterLabelStyle htmlFor="username">Username</RegisterLabelStyle>
-                                        <input
+                                        <Field
                                             type={'text'}
                                             name={'username'}
                                             onChange={handleChange}
@@ -102,7 +104,7 @@ function Register() {
 
                                     <RegisterInputBlockStyle>
                                         <RegisterLabelStyle htmlFor="email">Email</RegisterLabelStyle>
-                                        <input
+                                        <Field
                                             type={'text'}
                                             name={'email'}
                                             onChange={handleChange}
@@ -116,7 +118,7 @@ function Register() {
 
                                     <RegisterInputBlockStyle>
                                         <RegisterLabelStyle htmlFor="password">Password</RegisterLabelStyle>
-                                        <input
+                                        <Field
                                             type={'password'}
                                             name={'password'}
                                             onChange={handleChange}
@@ -132,7 +134,7 @@ function Register() {
                                     <RegisterInputBlockStyle>
                                         <RegisterLabelStyle htmlFor="confirmPassword">Confirm
                                             password</RegisterLabelStyle>
-                                        <input
+                                        <Field
                                             type={'password'}
                                             name={'confirmPassword'}
                                             onChange={handleChange}
